@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>TRUE ASSET | Under Development</title>
+  <meta name="description" content="TRUE ASSET — Premium Real Estate in South Mumbai. Under development. Launching soon." />
+  <style>
+    /* -------- Light Theme -------- */
+    :root{
+      --bg:#ffffff;            /* pure white */
+      --card:#ffffff;          /* card white */
+      --ink:#0f172a;           /* dark slate text */
+      --muted:#5b6477;         /* soft grey */
+      --line:#e7ecf2;          /* hairline */
+      --accent:#0ea5e9;        /* blue accent */
+      --accent-2:#22c55e;      /* green accent */
+      --brand:#f59e0b;         /* warm amber */
+      --tapeLight:#ffe8bb;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0; color:var(--ink); font:16px/1.55 Inter, ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, sans-serif;
+      background:
+        radial-gradient(800px 400px at 10% -10%, #eef7ff 0%, transparent 65%),
+        radial-gradient(900px 460px at 100% 120%, #f7fff3 0%, transparent 60%),
+        var(--bg);
+    }
+    a{color:inherit}
+
+    /* -------- Layout -------- */
+    .wrap{min-height:100%; display:grid; grid-template-rows:1fr auto}
+    .hero{display:grid; place-items:center; padding:48px 20px}
+    .card{
+      width:min(980px, 92vw);
+      background:var(--card);
+      border:1px solid var(--line);
+      border-radius:28px; padding:36px; position:relative; 
+      overflow:visible; /* ensure tape not cut */
+      box-shadow:0 18px 60px rgba(15,23,42,.08), 0 1px 0 #fff inset;
+    }
+
+    /* dotted backdrop */
+    .card::before{content:""; position:absolute; inset:0; background:
+      radial-gradient(#dfe7f1 1px, transparent 1px) 0 0/20px 20px;
+      mask: linear-gradient(#000, transparent 70%);
+      pointer-events:none}
+
+    .eyebrow{letter-spacing:.22em; text-transform:uppercase; color:var(--muted); font-weight:700; font-size:.8rem}
+    h1{margin:.35rem 0 .1rem; font-weight:800; font-size:clamp(2.1rem, 6vw, 3.4rem); line-height:1.06}
+    .slogan{margin:.4rem 0 1.2rem; color:#374151; font-size:clamp(1rem, 2.3vw, 1.2rem)}
+    .meta{display:flex; gap:10px; flex-wrap:wrap; color:var(--muted); font-size:.95rem}
+    .pill{border:1px solid var(--line); padding:8px 12px; border-radius:999px; background:#fbfdff}
+
+    /* -------- Under‑Development Banner (construction tape) -------- */
+    .tape{
+      position:absolute; left:18px; right:18px; bottom:-18px; height:56px; 
+      transform:rotate(-2.2deg);
+      background: repeating-linear-gradient( 135deg,
+        var(--brand) 0 24px,
+        var(--tapeLight) 24px 48px
+      );
+      border-top:1px solid #f2c265; border-bottom:1px solid #f2c265;
+      box-shadow:0 12px 24px rgba(245, 158, 11, .25);
+      display:grid; place-items:center; color:#7a4a00; font-weight:900; letter-spacing:.12em; text-transform:uppercase;
+      text-shadow:0 1px 0 rgba(255,255,255,.5); z-index:3;
+    }
+    .tape span{display:flex; align-items:center; gap:10px; font-size:.9rem; white-space:nowrap}
+
+    /* -------- Title Build (no crane) -------- */
+    .build-zone{position:relative; margin:28px 0 8px}
+    .title-svg{width:100%; height:auto; display:block}
+    .outline{stroke: #9fbad4; stroke-width:2; fill:transparent; stroke-dasharray:1200; stroke-dashoffset:1200; animation: draw 1.8s ease forwards .2s}
+    .fill{fill:url(#grad); opacity:0; animation: fillIn .7s ease forwards 1.6s}
+    @keyframes draw{to{stroke-dashoffset:0}}
+    @keyframes fillIn{to{opacity:1}}
+
+    /* Subtle module blocks assembling underneath the title */
+    .blocks{display:grid; grid-template-columns:repeat(8,1fr); gap:10px; margin-top:14px}
+    .block{height:10px; border-radius:6px; background:#e7f3ff; border:1px solid #d6e8fb; transform:translateY(10px); opacity:0; animation: pop .6s ease forwards}
+    .block:nth-child(odd){background:#e9fbee; border-color:#d8f5df}
+    .block:nth-child(1){animation-delay:.25s}
+    .block:nth-child(2){animation-delay:.35s}
+    .block:nth-child(3){animation-delay:.45s}
+    .block:nth-child(4){animation-delay:.55s}
+    .block:nth-child(5){animation-delay:.65s}
+    .block:nth-child(6){animation-delay:.75s}
+    .block:nth-child(7){animation-delay:.85s}
+    .block:nth-child(8){animation-delay:.95s}
+    @keyframes pop{to{transform:translateY(0); opacity:1}}
+
+    /* -------- Curtains reveal for LAUNCHING SOON -------- */
+    .curtain-stage{position:relative; margin:18px 0 10px; height:68px; border-radius:14px; border:1px solid var(--line); background:#fff; overflow:hidden}
+    .curtain-text{position:absolute; inset:0; display:grid; place-items:center; font-weight:900; letter-spacing:.18em; color:#0b5; z-index:1}
+    .curtain{position:absolute; top:0; width:50%; height:100%; background:linear-gradient(180deg, #ffd6d6, #ffffff);}
+    .curtain.left{left:0; border-right:1px solid #f3c5c5; animation: openLeft 1.6s ease forwards .6s}
+    .curtain.right{right:0; border-left:1px solid #f3c5c5; animation: openRight 1.6s ease forwards .6s}
+    @keyframes openLeft{to{transform:translateX(-100%)}}
+    @keyframes openRight{to{transform:translateX(100%)}}
+
+    /* -------- CTA -------- */
+    .cta{margin-top:14px; display:flex; gap:12px; flex-wrap:wrap}
+    .btn{appearance:none; border:0; border-radius:12px; padding:12px 16px; font-weight:700; cursor:pointer}
+    .primary{ background:linear-gradient(90deg, var(--accent), #60a5fa); color:#fff; box-shadow:0 10px 22px rgba(14,165,233,.25)}
+    .ghost{ background:#ffffff; color:var(--ink); border:1px solid var(--line)}
+
+    .contact{display:flex; gap:14px; flex-wrap:wrap; margin-top:8px; color:#334155; font-weight:600}
+    .contact a{display:inline-flex; align-items:center; gap:8px; padding:8px 12px; border:1px solid var(--line); border-radius:999px; text-decoration:none; background:#fff}
+    .ico{width:16px; height:16px; display:inline-block}
+
+    /* -------- Footer (PatilVentures credit) -------- */
+    footer{display:grid; place-items:center; padding:34px 22px 22px; color:var(--muted)}
+    .pv-card{width:min(980px,92vw); margin:0 auto; border:1px dashed var(--line); border-radius:16px; padding:14px 16px; display:flex; align-items:center; gap:14px; background:#ffffffcc; backdrop-filter:saturate(1.2) blur(2px)}
+    .pv-logo{width:44px; height:44px; border-radius:10px; background:#f3f4f6 center/cover no-repeat; overflow:hidden}
+    .pv-logo img{width:100%; height:100%; object-fit:cover; display:block}
+    .pv-txt{display:flex; flex-direction:column}
+    .pv-txt b{color:#111827}
+    .pv-note{font-size:.92rem; color:#4b5563}
+
+    /* Responsive tweaks */
+    @media (max-width:520px){ .card{padding:26px} }
+
+    /* Reduced motion */
+    @media (prefers-reduced-motion: reduce){
+      .outline{animation:none}
+      .fill{animation:none; opacity:1}
+      .block{animation:none; opacity:1; transform:none}
+      .curtain.left,.curtain.right{animation:none}
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <main class="hero">
+      <section class="card">
+        <div class="tape"><span>🚧 UNDER DEVELOPMENT • COMING SOON • TRUE ASSET 🚧</span></div>
+
+        <div class="eyebrow">South Mumbai · Real Estate</div>
+        <h1>TRUE ASSET — Launching Soon</h1>
+        <p class="slogan">“Unlocking South Mumbai’s Finest Addresses.”</p>
+        <div class="meta">
+          <div class="pill">Residential • Commercial</div>
+          <div class="pill">Premium Advisory</div>
+          <div class="pill">By Appointment (soon)</div>
+        </div>
+
+        <!-- Title animation (light mode) -->
+        <div class="build-zone" aria-label="TRUE ASSET word being assembled">
+          <svg class="title-svg" viewBox="0 0 1200 160" role="img" aria-labelledby="brandTitle brandDesc">
+            <title id="brandTitle">TRUE ASSET — being assembled</title>
+            <desc id="brandDesc">Outlined letters are drawn, then filled with a soft gradient.</desc>
+            <defs>
+              <linearGradient id="grad" x1="0" x2="1" y1="0" y2="0">
+                <stop offset="0%" stop-color="#0ea5e9"/>
+                <stop offset="100%" stop-color="#22c55e"/>
+              </linearGradient>
+            </defs>
+            <text x="50%" y="60%" text-anchor="middle" font-size="110" font-weight="800" letter-spacing="6" class="outline">TRUE ASSET</text>
+            <text x="50%" y="60%" text-anchor="middle" font-size="110" font-weight="800" letter-spacing="6" class="fill">TRUE ASSET</text>
+          </svg>
+          <div class="blocks" aria-hidden="true">
+            <div class="block"></div><div class="block"></div><div class="block"></div><div class="block"></div>
+            <div class="block"></div><div class="block"></div><div class="block"></div><div class="block"></div>
+          </div>
+        </div>
+
+        <!-- Curtains reveal just for LAUNCHING SOON -->
+        <div class="curtain-stage" aria-label="Curtains opening to reveal Launching Soon">
+          <div class="curtain-text">LAUNCHING&nbsp;SOON</div>
+          <div class="curtain left"></div>
+          <div class="curtain right"></div>
+        </div>
+
+        <!-- CTAs -->
+        <div class="cta">
+          <button class="btn primary" onclick="document.getElementById('notify').showModal()">Get launch update</button>
+   ;       <a class="btn ghost" href="#contact">Contact</a>
+        </div>
+
+        <!-- Contact row with Instagram and Email -->
+        <div id="contact" class="contact" aria-label="Contact links">
+          <a href="https://www.instagram.com/ritiksalve_2130?igsh=MWEyY2o0eTU2aThzbw==" target="_blank" rel="noopener">
+            <svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path fill="#e1306c" d="M7 2h10a5 5 0 0 1 5 5v10a5 5 0 0 1-5 5H7a5 5 0 0 1-5-5V7a5 5 0 0 1 5-5zm0 2a3 3 0 0 0-3 3v10a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3V7a3 3 0 0 0-3-3H7zm5 3.5A5.5 5.5 0 1 1 6.5 13 5.51 5.51 0 0 1 12 7.5zm0 2A3.5 3.5 0 1 0 15.5 13 3.5 3.5 0 0 0 12 9.5zm5.75-2.75a1.25 1.25 0 1 1-1.25 1.25 1.25 1.25 0 0 1 1.25-1.25z"/></svg>
+            Ritik Salve
+          </a>
+          <a href="mailto:info.trueasset@gmail.com">
+            <svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path fill="#1d4ed8" d="M4 4h16a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2zm0 2v.01L12 12l8-5.99V6H4zm16 12V9.24l-7.4 4.43a2 2 0 0 1-2.2 0L3 9.24V18h17z"/></svg>
+            info.trueasset@gmail.com
+          </a>
+        </div>
+
+        <!-- Notify dialog -->
+       <dialog id="notify" style="
+  border:none;
+  border-radius:16px;
+  padding:0;
+  background:#ffffff;
+  color:#0f172a;
+  width:min(480px,92vw);
+  border:1px solid #e7ecf2;
+  box-shadow:0 18px 40px rgba(15,23,42,0.15);
+  animation:fadeIn 0.3s ease;
+">
+  <form method="dialog" style="padding:24px 22px 18px; display:flex; flex-direction:column; gap:14px;">
+    <h3 style="margin:0; font-size:1.3rem; font-weight:700; color:#0f172a;">Be first to know</h3>
+    <p style="margin:0; font-size:0.95rem; color:#5b6477;">Drop your email and we’ll notify you when we go live.</p>
+    <input type="email" placeholder="you@example.com" 
+      style="flex:1; padding:12px 14px; border-radius:10px; border:1px solid #e7ecf2; background:#fff; font-size:0.95rem; color:#0f172a; transition:border-color 0.2s, box-shadow 0.2s;" 
+      onfocus="this.style.borderColor='#0ea5e9'; this.style.boxShadow='0 0 0 3px rgba(14,165,233,0.2)'" 
+      onblur="this.style.borderColor='#e7ecf2'; this.style.boxShadow='none'"
+    />
+    <menu style="display:flex; justify-content:space-between; gap:10px; margin:10px 0 0; padding:0;">
+      <button value="cancel" class="btn ghost" style="
+        border-radius:10px;
+        padding:10px 16px;
+        font-weight:600;
+        cursor:pointer;
+        font-size:0.95rem;
+        background:#fff;
+        border:1px solid #e7ecf2;
+        color:#0f172a;
+      " onmouseover="this.style.background='#f9fafb'" onmouseout="this.style.background='#fff'">Cancel</button>
+      <button value="submit" class="btn primary" style="
+        border-radius:10px;
+        padding:10px 16px;
+        font-weight:600;
+        cursor:pointer;
+        font-size:0.95rem;
+        background:linear-gradient(90deg,#0ea5e9,#60a5fa);
+        color:#fff;
+        border:none;
+        box-shadow:0 4px 12px rgba(14,165,233,0.25);
+      " onmouseover="this.style.background='linear-gradient(90deg,#0284c7,#3b82f6)'" onmouseout="this.style.background='linear-gradient(90deg,#0ea5e9,#60a5fa)'">Notify me</button>
+    </menu>
+  </form>
+</dialog>
+
+<style>
+@keyframes fadeIn {
+  from { opacity:0; transform:translateY(-10px); }
+  to { opacity:1; transform:translateY(0); }
+}
+#notify::backdrop {
+  background:rgba(0,0,0,0.4);
+  backdrop-filter:blur(3px);
+}
+</style>
+
+      </section>
+    </main>
+
+    <footer>
+      <div class="pv-card">
+        <div class="pv-logo" aria-hidden="true">
+          <!-- Replace with your logo asset -->
+          <img src="assets/patilventures-logo.png" alt="PatilVentures logo" onerror="this.style.display='none'">
+        </div>
+        <div class="pv-txt">
+          <div><b>Built by PatilVentures</b> · Live soon</div>
+          
+          <div class="pv-note">Crafted with care for TRUE ASSET — South Mumbai.</div>
+          <div>Reach us at Mail:<b> office@patilventures.digital</b></div>
+        </div>
+      </div>
+    </footer>
+  </div>
+</body>
+</html>
