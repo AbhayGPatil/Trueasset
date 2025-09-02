@@ -304,7 +304,7 @@ body { overflow-x: hidden; }  /* stop any tiny sideways scroll on phones */
 }
 
 /* Smaller on mobile */
-@media (max-width: 520px) {
+@media (max-width: 430px) {
   .corner-lottie {
     width: 80px;
     height: 80px;
@@ -312,6 +312,38 @@ body { overflow-x: hidden; }  /* stop any tiny sideways scroll on phones */
     right: 10px;
   }
 }
+/* Desktop: keep it tall */
+.curtain-stage {
+  height: 240px; /* fits big Lottie */
+}
+
+/* Mobile: shrink height */
+@media (max-width: 520px) {
+  .curtain-stage {
+    height: 120px;   /* smaller card */
+  }
+  .lottie {
+    width: 120px !important;
+    height: 120px !important;
+  }
+}
+/* Default: show desktop, hide mobile */
+.desktop-only { display: inline; }
+.mobile-only  { display: none; }
+
+/* On mobile, swap them */
+@media (max-width: 520px) {
+  .desktop-only { display: none; }
+  .mobile-only  {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+  .line1, .line2 { display: block; }
+  .line2 { font-weight: 700; }  /* optional emphasis */
+}
+
 
 
   </style>
@@ -354,7 +386,16 @@ body { overflow-x: hidden; }  /* stop any tiny sideways scroll on phones */
         <!-- Curtains reveal just for LAUNCHING SOON -->
 <div class="curtain-stage" aria-label="Curtains opening to reveal Launching Soon">
   <div class="curtain-text">
-    <span class="launch-text">Your Dream Property Hub is&nbsp;Almost Here</span>
+ <span class="launch-text desktop-only">
+    Your Dream Property Hub is Almost Here
+  </span>
+
+  <!-- Mobile version (two lines, centered) -->
+  <span class="launch-text mobile-only">
+    <span class="line1">Your Dream Property Hub is</span>
+    <span class="line2">Almost Here</span>
+  </span>
+  <span id="launch-lottie" class="lottie"></span>
     <span id="launch-lottie" class="lottie" aria-label="Launching Soon animation"></span>
   </div>
   <div class="curtain left"></div>
