@@ -115,7 +115,7 @@
     /* -------- Footer (PatilVentures credit) -------- */
     footer{display:grid; place-items:center; padding:34px 22px 22px; color:var(--muted)}
     .pv-card{width:min(980px,92vw); margin:0 auto; border:1px dashed var(--line); border-radius:16px; padding:14px 16px; display:flex; align-items:center; gap:14px; background:#ffffffcc; backdrop-filter:saturate(1.2) blur(2px)}
-    .pv-logo{width:44px; height:44px; border-radius:10px; background:#f3f4f6 center/cover no-repeat; overflow:hidden}
+    .pv-logo{width:120px; height:90px; border-radius:10px; background:#f3f4f6 center/cover no-repeat; overflow:hidden}
     .pv-logo img{width:100%; height:100%; object-fit:cover; display:block}
     .pv-txt{display:flex; flex-direction:column}
     .pv-txt b{color:#111827}
@@ -216,6 +216,103 @@ body { overflow-x: hidden; }  /* stop any tiny sideways scroll on phones */
 @media (max-width: 768px){
   .card{ width: min(720px, 94vw); margin: 0 auto; }
 }
+/* Green color for the reveal text */
+.curtain-text { color:#16a34a; }               /* strong green */
+.launch-text  { font-weight:900; letter-spacing:.18em; }
+
+/* Hammer animation */
+.hammer-wrap { display:inline-flex; align-items:center; margin-left:10px; }
+.hammer {
+  transform-origin: 32px 8px;                  /* pivot near hammer head */
+  animation: hammer-swing 1.2s ease-in-out infinite;
+}
+
+/* Gentle swing + tiny tap */
+@keyframes hammer-swing {
+  0%   { transform: rotate(0deg) translateY(0); }
+  25%  { transform: rotate(-12deg) translateY(0); }
+  50%  { transform: rotate(0deg) translateY(0); }
+  60%  { transform: rotate(0deg) translateY(1px); }  /* subtle tap */
+  100% { transform: rotate(0deg) translateY(0); }
+}
+
+/* Respect reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .hammer { animation: none; }
+}
+/* Keep the reveal text green */
+.curtain-text { color: #16a34a; display: inline-flex; align-items: center; }
+.launch-text  { font-weight: 900; letter-spacing: .18em; }
+
+/* Lottie sizing + alignment */
+.lottie-wrap { display: inline-flex; align-items: center; margin-left: 10px; }
+.lottie      { width: 40px; height: 40px; display: inline-block; pointer-events: none; }
+
+@media (max-width: 520px){
+  .lottie { width: 32px; height: 32px; }
+}
+
+/* Respect reduced motion */
+@media (prefers-reduced-motion: reduce){
+  .lottie { display: none; } /* or keep shown and pause via JS */
+}
+/* Desktop */
+.curtain-stage {
+  height: 150px;   /* was 68px */
+  border-radius: 14px;
+  border: 1px solid var(--line);
+  background: #fff;
+  overflow: hidden;
+  position: relative;
+  margin: 18px 0 10px;
+}
+
+/* Center the content inside */
+.curtain-text {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-weight: 900;
+  letter-spacing: .18em;
+  color: #16a34a;
+}
+
+.lottie {
+  width: 250px !important;   /* increase as you like */
+  height: 300px !important;
+  margin-top: 1px;
+}
+
+/* Mobile smaller height */
+@media (max-width: 520px) {
+  .curtain-stage { height: 180px; } /* adjust if too big */
+  .lottie { width: 140px !important; height: 140px !important; }
+}
+
+/* Top-right Lottie */
+.corner-lottie {
+  position: fixed;
+  top: 20px;     /* distance from top */
+  right: 1px;   /* distance from right */
+  width: 220px;  /* size of the animation */
+  height: 260px;
+  z-index: 1000; /* above everything else */
+  pointer-events: none; /* so it won't block clicks */
+}
+
+/* Smaller on mobile */
+@media (max-width: 520px) {
+  .corner-lottie {
+    width: 80px;
+    height: 80px;
+    top: 10px;
+    right: 10px;
+  }
+}
+
 
   </style>
 </head>
@@ -255,11 +352,17 @@ body { overflow-x: hidden; }  /* stop any tiny sideways scroll on phones */
         </div>
 
         <!-- Curtains reveal just for LAUNCHING SOON -->
-        <div class="curtain-stage" aria-label="Curtains opening to reveal Launching Soon">
-          <div class="curtain-text">LAUNCHING&nbsp;SOON</div>
-          <div class="curtain left"></div>
-          <div class="curtain right"></div>
-        </div>
+<div class="curtain-stage" aria-label="Curtains opening to reveal Launching Soon">
+  <div class="curtain-text">
+    <span class="launch-text">Your Dream Property Hub is&nbsp;Almost Here</span>
+    <span id="launch-lottie" class="lottie" aria-label="Launching Soon animation"></span>
+  </div>
+  <div class="curtain left"></div>
+  <div class="curtain right"></div>
+</div>
+
+<!-- Top-right Lottie decoration -->
+<div id="corner-lottie" class="corner-lottie"></div>
 
         <!-- CTAs -->
         <div class="cta">
@@ -332,15 +435,59 @@ body { overflow-x: hidden; }  /* stop any tiny sideways scroll on phones */
       <div class="pv-card">
         <div class="pv-logo" aria-hidden="true">
           <!-- Replace with your logo asset -->
-          <img src="assets/patilventures-logo.png" alt="PatilVentures logo" onerror="this.style.display='none'">
+          <img src="assets/patilventures-logo.jpg" alt="PatilVentures logo" onerror="this.style.display='none'">
         </div>
         <div class="pv-txt">
-          <div><b>Built by PatilVentures</b> · Live soon</div>
+          <div><b>Website by PatilVentures</b> · Live soon</div>
           <div class="pv-note">Crafted with care for TRUE ASSET — South Mumbai.</div>
           <div>Reach us at Mail:<b> office@patilventures.digital</b></div>
+          
         </div>
       </div>
     </footer>
   </div>
+  <script src="https://unpkg.com/lottie-web/build/player/lottie.min.js"></script>
+<script>
+  (function(){
+    const container = document.getElementById('launch-lottie');
+    if (!container) return;
+
+    // Optional: pause if user prefers reduced motion
+    const reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    const anim = lottie.loadAnimation({
+      container,
+      renderer: 'svg',
+      loop: !reduceMotion,
+      autoplay: !reduceMotion,
+      path: 'assets/cs.json' // <-- put your Lottie JSON path here
+    });
+
+    // (Optional) Pause when offscreen to save battery
+    const io = ('IntersectionObserver' in window) && new IntersectionObserver(([e])=>{
+      if (!anim) return;
+      if (e.isIntersecting && !reduceMotion) anim.play(); else anim.pause();
+    }, {threshold: 0.2});
+    if (io) io.observe(container);
+  })();
+</script>
+<script>
+  // Top-right Lottie animation
+  const cornerContainer = document.getElementById('corner-lottie');
+  if (cornerContainer) {
+    lottie.loadAnimation({
+      container: cornerContainer,
+      renderer: 'svg',
+      loop: true,
+      autoplay: true,
+      path: 'assets/wuc.json', // use same JSON file
+      rendererSettings: {
+        preserveAspectRatio: 'xMidYMid meet'
+      }
+    });
+  }
+</script>
+
+
 </body>
 </html>
