@@ -26,6 +26,8 @@
         radial-gradient(800px 400px at 10% -10%, #eef7ff 0%, transparent 65%),
         radial-gradient(900px 460px at 100% 120%, #f7fff3 0%, transparent 60%),
         var(--bg);
+      /* Prevent rotated tape from creating horizontal scroll that offsets centering */
+      overflow-x:hidden;
     }
     a{color:inherit}
 
@@ -53,10 +55,11 @@
     .meta{display:flex; gap:10px; flex-wrap:wrap; color:var(--muted); font-size:.95rem}
     .pill{border:1px solid var(--line); padding:8px 12px; border-radius:999px; background:#fbfdff}
 
-    /* -------- Under‑Development Banner (construction tape) -------- */
+    /* -------- Under-Development Banner (construction tape) -------- */
     .tape{
       position:absolute; left:18px; right:18px; bottom:-18px; height:56px; 
       transform:rotate(-2.2deg);
+      transform-origin:center;
       background: repeating-linear-gradient( 135deg,
         var(--brand) 0 24px,
         var(--tapeLight) 24px 48px
@@ -118,16 +121,102 @@
     .pv-txt b{color:#111827}
     .pv-note{font-size:.92rem; color:#4b5563}
 
-    /* Responsive tweaks */
-    @media (max-width:520px){ .card{padding:26px} }
+    /* === Mobile-friendly refinements === */
+    @media (max-width: 520px){
+      .hero{ padding: 28px 14px; }
+      .card{ width: 94vw; padding: 22px 16px; border-radius: 22px; }
 
-    /* Reduced motion */
-    @media (prefers-reduced-motion: reduce){
-      .outline{animation:none}
-      .fill{animation:none; opacity:1}
-      .block{animation:none; opacity:1; transform:none}
-      .curtain.left,.curtain.right{animation:none}
+      .eyebrow{ font-size: .72rem; letter-spacing: .18em; }
+      h1{ font-size: clamp(1.6rem, 7vw, 2.2rem); line-height: 1.08; margin-top:.2rem; }
+      .slogan{ font-size: .95rem; margin: .35rem 0 1rem; }
+
+      .meta{ gap: 8px; }
+      .pill{ padding: 6px 10px; font-size: .9rem; }
+
+      /* Title “build” and blocks */
+      .build-zone{ margin: 18px 0 6px; }
+      .title-svg{ width: 100%; }
+      .blocks{ grid-template-columns: repeat(4, 1fr); gap: 8px; }
+
+      /* Curtains area */
+      .curtain-stage{ height: 56px; border-radius: 12px; }
+      .curtain-text{ font-size: .9rem; letter-spacing: .12em; }
+
+      /* CTA buttons */
+      .cta{ gap: 10px; }
+      .btn{ padding: 12px 14px; border-radius: 10px; }
+      .cta .btn{ flex: 1 1 140px; } /* side-by-side or stacked nicely */
+
+      /* Contact chips */
+      .contact{ gap: 10px; }
+      .contact a{ width: 100%; justify-content: center; padding: 10px 12px; }
+
+      /* Construction tape — keep inside card on phones */
+      .tape{
+        left: 10px; right: 10px; bottom: -12px; height: 44px;
+        transform: none;              /* no rotation on mobile */
+      }
+
+      /* Footer */
+      .pv-card{
+        flex-direction: row;
+        align-items: center;
+        gap: 12px;
+        padding: 12px;
+      }
+      .pv-logo{ width: 40px; height: 40px; border-radius: 8px; }
+      .pv-note{ font-size: .88rem; }
     }
+
+    /* Slightly larger phones in landscape / smaller tablets */
+    @media (max-width: 768px){
+      .card{ width: min(720px, 94vw); }
+      .blocks{ gap: 9px; }
+    }
+
+    /* Dialog animation/backdrop */
+    @keyframes fadeIn { from { opacity:0; transform:translateY(-10px);} to { opacity:1; transform:translateY(0);} }
+    #notify::backdrop { background:rgba(0,0,0,0.4); backdrop-filter:blur(3px); }
+    @media (max-width: 360px){ #notify { width: 92vw; } }
+    /* --- DO NOT TOUCH DESKTOP. Mobile-only polish (≤520px) --- */
+body { overflow-x: hidden; }  /* stop any tiny sideways scroll on phones */
+
+@media (max-width: 520px){
+  .hero{ padding: 28px 14px; }
+
+  /* Keep the card perfectly centered and roomy on phones */
+  .card{
+    width: 94vw;              /* a bit wider for balance */
+    margin: 0 auto;           /* hard center */
+    padding: 22px 16px;       /* tighter padding on phones */
+    border-radius: 22px;
+    overflow: hidden;         /* so tape can't push layout */
+    padding-bottom: 82px;     /* reserve space for the tape */
+  }
+
+  /* Tape sits INSIDE the card on phones; no tilt, no overflow */
+  .tape{
+    left: 12px;
+    right: 12px;
+    bottom: 12px;
+    height: 44px;
+    transform: none;          /* remove rotation only on mobile */
+    border-radius: 10px;
+  }
+
+  /* Small readability tweaks (no layout change on desktop) */
+  .blocks{ grid-template-columns: repeat(4, 1fr); gap: 8px; }
+  .curtain-stage{ height: 56px; border-radius: 12px; }
+  .curtain-text{ font-size: .9rem; letter-spacing: .12em; }
+  .cta .btn{ flex: 1 1 140px; }             /* buttons stack nicely if needed */
+  .contact a{ width: 100%; justify-content: center; padding: 10px 12px; }
+}
+
+/* Optional: slightly larger phones / small tablets */
+@media (max-width: 768px){
+  .card{ width: min(720px, 94vw); margin: 0 auto; }
+}
+
   </style>
 </head>
 <body>
@@ -175,7 +264,7 @@
         <!-- CTAs -->
         <div class="cta">
           <button class="btn primary" onclick="document.getElementById('notify').showModal()">Get launch update</button>
-   ;       <a class="btn ghost" href="#contact">Contact</a>
+          <a class="btn ghost" href="#contact">Contact</a>
         </div>
 
         <!-- Contact row with Instagram and Email -->
@@ -191,61 +280,50 @@
         </div>
 
         <!-- Notify dialog -->
-       <dialog id="notify" style="
-  border:none;
-  border-radius:16px;
-  padding:0;
-  background:#ffffff;
-  color:#0f172a;
-  width:min(480px,92vw);
-  border:1px solid #e7ecf2;
-  box-shadow:0 18px 40px rgba(15,23,42,0.15);
-  animation:fadeIn 0.3s ease;
-">
-  <form method="dialog" style="padding:24px 22px 18px; display:flex; flex-direction:column; gap:14px;">
-    <h3 style="margin:0; font-size:1.3rem; font-weight:700; color:#0f172a;">Be first to know</h3>
-    <p style="margin:0; font-size:0.95rem; color:#5b6477;">Drop your email and we’ll notify you when we go live.</p>
-    <input type="email" placeholder="you@example.com" 
-      style="flex:1; padding:12px 14px; border-radius:10px; border:1px solid #e7ecf2; background:#fff; font-size:0.95rem; color:#0f172a; transition:border-color 0.2s, box-shadow 0.2s;" 
-      onfocus="this.style.borderColor='#0ea5e9'; this.style.boxShadow='0 0 0 3px rgba(14,165,233,0.2)'" 
-      onblur="this.style.borderColor='#e7ecf2'; this.style.boxShadow='none'"
-    />
-    <menu style="display:flex; justify-content:space-between; gap:10px; margin:10px 0 0; padding:0;">
-      <button value="cancel" class="btn ghost" style="
-        border-radius:10px;
-        padding:10px 16px;
-        font-weight:600;
-        cursor:pointer;
-        font-size:0.95rem;
-        background:#fff;
-        border:1px solid #e7ecf2;
-        color:#0f172a;
-      " onmouseover="this.style.background='#f9fafb'" onmouseout="this.style.background='#fff'">Cancel</button>
-      <button value="submit" class="btn primary" style="
-        border-radius:10px;
-        padding:10px 16px;
-        font-weight:600;
-        cursor:pointer;
-        font-size:0.95rem;
-        background:linear-gradient(90deg,#0ea5e9,#60a5fa);
-        color:#fff;
-        border:none;
-        box-shadow:0 4px 12px rgba(14,165,233,0.25);
-      " onmouseover="this.style.background='linear-gradient(90deg,#0284c7,#3b82f6)'" onmouseout="this.style.background='linear-gradient(90deg,#0ea5e9,#60a5fa)'">Notify me</button>
-    </menu>
-  </form>
-</dialog>
-
-<style>
-@keyframes fadeIn {
-  from { opacity:0; transform:translateY(-10px); }
-  to { opacity:1; transform:translateY(0); }
-}
-#notify::backdrop {
-  background:rgba(0,0,0,0.4);
-  backdrop-filter:blur(3px);
-}
-</style>
+        <dialog id="notify" style="
+          border:none;
+          border-radius:16px;
+          padding:0;
+          background:#ffffff;
+          color:#0f172a;
+          width:min(480px,92vw);
+          border:1px solid #e7ecf2;
+          box-shadow:0 18px 40px rgba(15,23,42,0.15);
+          animation:fadeIn 0.3s ease;
+        ">
+          <form method="dialog" style="padding:24px 22px 18px; display:flex; flex-direction:column; gap:14px;">
+            <h3 style="margin:0; font-size:1.3rem; font-weight:700; color:#0f172a;">Be first to know</h3>
+            <p style="margin:0; font-size:0.95rem; color:#5b6477;">Drop your email and we’ll notify you when we go live.</p>
+            <input type="email" placeholder="you@example.com" 
+              style="flex:1; padding:12px 14px; border-radius:10px; border:1px solid #e7ecf2; background:#fff; font-size:0.95rem; color:#0f172a; transition:border-color 0.2s, box-shadow 0.2s;" 
+              onfocus="this.style.borderColor='#0ea5e9'; this.style.boxShadow='0 0 0 3px rgba(14,165,233,0.2)'" 
+              onblur="this.style.borderColor='#e7ecf2'; this.style.boxShadow='none'"
+            />
+            <menu style="display:flex; justify-content:space-between; gap:10px; margin:10px 0 0; padding:0;">
+              <button value="cancel" class="btn ghost" style="
+                border-radius:10px;
+                padding:10px 16px;
+                font-weight:600;
+                cursor:pointer;
+                font-size:0.95rem;
+                background:#fff;
+                border:1px solid #e7ecf2;
+                color:#0f172a;
+              " onmouseover="this.style.background='#f9fafb'" onmouseout="this.style.background='#fff'">Cancel</button>
+              <button value="submit" class="btn primary" style="
+                border-radius:10px;
+                padding:10px 16px;
+                font-weight:600;
+                cursor:pointer;
+                font-size:0.95rem;
+                background:linear-gradient(90deg,#0ea5e9,#60a5fa);
+                color:#fff;
+                border:none;
+                box-shadow:0 4px 12px rgba(14,165,233,0.25);
+              " onmouseover="this.style.background='linear-gradient(90deg,#0284c7,#3b82f6)'" onmouseout="this.style.background='linear-gradient(90deg,#0ea5e9,#60a5fa)'">Notify me</button>
+            </menu>
+          </form>
+        </dialog>
 
       </section>
     </main>
@@ -258,7 +336,6 @@
         </div>
         <div class="pv-txt">
           <div><b>Built by PatilVentures</b> · Live soon</div>
-          
           <div class="pv-note">Crafted with care for TRUE ASSET — South Mumbai.</div>
           <div>Reach us at Mail:<b> office@patilventures.digital</b></div>
         </div>
